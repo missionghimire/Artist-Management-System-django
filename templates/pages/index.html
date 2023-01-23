@@ -1,0 +1,60 @@
+{% extends "base.html"%}
+
+{% load static %}
+
+{% block body_content %}
+<br>
+
+<div class="col-sm-10 offset-1">
+
+<br>
+    <h4 class="text-center alert alert-info">Show User Informations</h4>
+
+
+    <br>
+    <table class="table" id="example">
+       
+        <thead>
+          <tr>
+            <th scope="col">SN</th>
+            <th scope="col">Name</th>
+            <th scope="col">DOB</th>
+            <th scope="col">Gender</th>
+            <th scope="col">First Release year</th>
+            <th scope="col">No of albums released</th>
+            <th scope="col">create_at</th>
+            <th scope="col">updated_at</th>
+            <th scope="col">Actions</th>
+
+            
+
+          </tr>
+        </thead>
+    
+        <tbody>
+            {% for enquiry in enquires %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+
+            <td>{{enquiry.name}}</td>
+            <td>{{enquiry.dob}}</td>
+            <td>{{enquiry.address}}</td>
+            <td>{{enquiry.first_release_year}}</td>
+            <td>{{enquiry.no_of_albums_released}}</td>
+            <td>{{enquiry.create_at}}</td>
+            <td>{{enquiry.updated_at}}</td>
+
+
+            <td><a href="{% url 'update-user' enquiry.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
+                <a href="{% url 'delete-user' enquiry.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        
+        </tbody>
+      </table>
+ 
+    </div>
+
+{% endblock %}
+
