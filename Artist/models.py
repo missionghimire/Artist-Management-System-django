@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
-
 from django.contrib.auth.base_user import BaseUserManager
+
+
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         if not email:
@@ -63,6 +66,12 @@ class User(AbstractUser):
         return self.email
 
 
+def current_year():
+    return datetime.date.today().year
+
+def max_value_current_year(value):
+    return MaxValueValidator(current_year())(value)  
+
 class Artist(models.Model):
     MALE = 'male'
     FEMALE = 'female'
@@ -74,7 +83,7 @@ class Artist(models.Model):
     dob = models.DateField()
     gender = models.CharField(max_length=30, choices=GENDER)
     address = models.CharField(max_length=255)
-    first_release_year = models.DateField()
+    first_release_year = models.IntegerField(_('first_release_year'), validators=[MinValueValidator(1984), max_value_current_year])
     no_of_albums_released = models.IntegerField()
     create_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -101,3 +110,11 @@ class Music(models.Model):
 
     def __str__(self) -> str:
         return self.artist.name + " " + self.title
+
+
+
+
+
+
+  
+

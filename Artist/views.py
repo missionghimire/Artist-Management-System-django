@@ -10,13 +10,13 @@ from django.contrib.auth.decorators import login_required
 def get_register(request):
 
     if request.method == 'POST':
-        form = AdminForm(request.POST)
+        form = UserForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Signup successfully")
             return redirect('login')
     else:
-        form = AdminForm()
+        form = UserForm()
     return render(request, "pages/register.html", {"form": form})
 
 
@@ -40,35 +40,34 @@ def get_login(request):
 
     return render(request, "pages/login.html", {"form": form})
 
-
-
-
-        
+    
 
 def get_logout(request):
     logout(request)
     messages.success(request, "Logout successfully")
-
     return redirect("login")
 
-@login_required(login_url='login')
-def createuser(request):
-    if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "User create successfully")
-            return redirect("/")
 
-    else:
-        form = UserForm()
-    return render(request,"pages/create_user.html",{"form": form})    
+
+
+# @login_required(login_url='login')
+# def createuser(request):
+#     if request.method == 'POST':
+#         form = UserForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "User create successfully")
+#             return redirect("/")
+
+#     else:
+#         form = UserForm()
+#     return render(request,"pages/create_user.html",{"form": form})    
 
 
 
 @login_required(login_url='login')
 def get_userlist(request):
-    enquires=Artist.objects.order_by('create_at')
+    enquires=User.objects.order_by('create_at')
     context={
         'enquires':enquires,
     }    
@@ -79,15 +78,15 @@ def get_userlist(request):
 def user_update(request, pk):
 
     if request.method == "POST":
-        data = Artist.objects.get(id=pk)
-        form = UserForm(request.POST,  instance=data)
+        data = User.objects.get(id=pk)
+        form = UserupdateForm(request.POST,  instance=data)
         if form.is_valid():
             form.save()
             messages.success(request, "User update successfully")
             return redirect("/")
     else:
-        data = Artist.objects.get(id=pk)
-        form = UserForm( instance=data)
+        data = User.objects.get(id=pk)
+        form = UserupdateForm( instance=data)
 
     context = {
         "data": data,
@@ -98,7 +97,7 @@ def user_update(request, pk):
 
 @login_required(login_url='login')
 def user_delete(request, pk):
-    data = Artist.objects.get(id=pk)
+    data = User.objects.get(id=pk)
     data.delete()
     messages.success(request, "user delete successfully")
     return redirect("/")
@@ -121,7 +120,7 @@ def createartist(request):
 
 @login_required(login_url='login')
 def get_artistlist(request):
-    enquires=Music.objects.all()
+    enquires=Artist.objects.all()
     context={
         'enquires':enquires,
     }    
@@ -132,15 +131,15 @@ def get_artistlist(request):
 def artist_update(request, pk):
 
     if request.method == "POST":
-        data = Music.objects.get(id=pk)
-        form = ArtistUpdateForm(request.POST,  instance=data)
+        data = Artist.objects.get(id=pk)
+        form = ArtistForm(request.POST,  instance=data)
         if form.is_valid():
             form.save()
             messages.success(request, "Artist update successfully")
             return redirect("artist-list")
     else:
-        data = Music.objects.get(id=pk)
-        form = ArtistUpdateForm( instance=data)
+        data = Artist.objects.get(id=pk)
+        form = ArtistForm( instance=data)
 
     context = {
         "data": data,
@@ -151,7 +150,45 @@ def artist_update(request, pk):
 
 @login_required(login_url='login')
 def delete_artist(request, pk):
-    data = Music.objects.get(id=pk)
+    data = Artist.objects.get(id=pk)
     data.delete()
     messages.success(request, "Artist delete successfully")
+    return redirect("artist-list")
+
+@login_required(login_url='login')
+def view_music(request, pk):
+    data = Music.objects.filter(artist__id=pk)
+    context={
+        'data':data
+    }
+    return render(request, "pages/listmusic.html", context)
+
+
+
+@login_required(login_url='login')
+def music_update(request, pk):
+
+    if request.method == "POST":
+        data = Music.objects.get(id=pk)
+        form = MusicForm(request.POST,  instance=data)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Artist update successfully")
+            return redirect("artist-list")
+    else:
+        data = Music.objects.get(id=pk)
+        form = MusicForm( instance=data)
+
+    context = {
+        "data": data,
+        "form": form,
+    }
+ 
+    return render(request, "pages/musicupdate.html", context)
+
+@login_required(login_url='login')
+def delete_music(request, pk):
+    data =Music.objects.get(id=pk)
+    data.delete()
+    messages.success(request, "Music delete successfully")
     return redirect("artist-list")

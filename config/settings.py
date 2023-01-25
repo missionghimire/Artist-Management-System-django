@@ -29,7 +29,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+    "material",
+    "material.admin",
+   
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -72,24 +74,24 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'artistmanagementsystem',
-        'HOST': 'localhost',
-        'PORT': 5432,
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'artistmanagementsystem',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#     }
+# }
 
 AUTH_USER_MODEL = 'Artist.User'
 
