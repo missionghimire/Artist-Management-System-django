@@ -15,6 +15,7 @@ urlpatterns = [
     path("update-artist/<int:pk>", artist_update, name="update-artist"),
     path('artist-delete/<int:pk>',delete_artist,name='artist-delete'),
 
+    path('create-music/<int:pk>',create_music,name='create-music'),
     path('view-music/<int:pk>',view_music,name='view-music'),
     path('music-update/<int:pk>',music_update,name='music-update'),
     path('music-delete/<int:pk>',delete_music,name='music-delete'),
