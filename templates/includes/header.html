@@ -5,13 +5,13 @@
       
         <ul class="nav-linkss">
 
+
+            {% if user.is_authenticated %}
+
             <li><a href="/">User</a></li>
             <li><a href="{% url 'artist-list' %}">Artist</a></li>
 
-
-            {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" class="btn1">Logout</a>
-
 
             {% else %}
             <a href="{% url 'login'%}" class="btn1">Log In</a>
